@@ -20,12 +20,14 @@ a {
 
 <h1>Choose Your Path</h1>
 
-<p>You've reached a fork in the path. <br>
-Which way will you go? What can be on the left? What can be on the right?</p>
+<p>You've reached a fork in the path. Which way will you go? <br>
+Click on either the left path or the right path to head in that direction.</p>
 
-<a href="rainforest.html">Go Left</a>
-<img src="2-way-path.jpeg" alt="A fork in the path" style="width:600px">
-<a href="to-the-beach.html">Go Right</a>
+<img src="2-way-path.jpeg" alt="A fork in the path" usemap="#workmap" style="width:600px">
+<map name="workmap">
+   <area shape="rect" coords="0, 0, 300, 500" alt="The ocean" href="rainforest.html">
+   <area shape="rect" coords="300, 0, 600, 500" alt="The ocean" href="rainforest.html">
+</map>
 
 </body>
 </html>
