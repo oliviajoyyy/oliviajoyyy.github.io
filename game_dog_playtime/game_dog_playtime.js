@@ -1,8 +1,9 @@
 // global variables
 var canvasSize = 600;
-var x = 300;    // x coordinate
-var y = 300;    // y coordinate
+var x, x2 = 300;    // x coordinate
+var y, y2 = 300;    // y coordinate
 var size = 100; // image size
+var birdSize = size/2;
 var score = 0;  // start score at 0
 var tSize = 20; // text size
 var gameState = "L1"; // start on level  1
@@ -12,6 +13,7 @@ let sel, item, button;
 // Preload images
 function preload() {
   dog = loadImage('dog.png');
+  bird = loadImage('bird.png');
   bg1 = loadImage('neighborhood.jpeg');
   bg2 = loadImage('park.jpeg');
   bg3 = loadImage('picnic.jpeg');
@@ -25,6 +27,8 @@ function setup() {
   textSize(tSize);
   x = random(width); // starting coordinates
   y = random((2/3)*height, height); // from 2/3 of the height to the bottom of the canvas
+  x2 = random(width);
+  y2 = random(height);
   
   cursor(HAND); // start cursor with no item
   // create selection
@@ -104,6 +108,8 @@ function levelOne() {
   if (distTo < size/2 && (item == 'Duck' || item == 'Dog Bone' || item == 'Bacon')) {
     x = random(width);
     y = random((2/3)*height, height);
+    x2 = random(width);
+    y2 = random(height);
     score = score + 1;
   }
   
@@ -114,6 +120,7 @@ function levelOne() {
   
   // line to dog
   line(x, y, mouseX, mouseY);
+  image(bird, x2-(birdSize/2), y2-(birdSize/2), birdSize, birdSize); 
   image(dog, x-(size/2), y-(size/2), size, size); 
   //cursor('baseball.png', 16, 16);
 } // end level 1
@@ -127,6 +134,8 @@ function levelTwo() {
   if (distTo < size/2 && (item == 'Rope' || item == 'Baseball')) {
     x = random(width);
     y = random((1/2)*height, height);
+    x2 = random(width);
+    y2 = random(height);
     score = score + 1;
   }
   
@@ -135,6 +144,7 @@ function levelTwo() {
     gameState = "L3";
   }
   
+  image(bird, x2-(birdSize/2), y2-(birdSize/2), birdSize, birdSize); 
   image(dog, x-(size/2), y-(size/2), size, size); 
 } // end level 2
 
@@ -146,6 +156,8 @@ function levelThree() { // only bacon works
   if (distTo < size/2 && item == 'Bacon') {
     x = random(width);
     y = random((1/3)*height, height);
+    x2 = random(width);
+    y2 = random(height);
     score = score + 1;
     size = size - 5;
   }
@@ -155,6 +167,7 @@ function levelThree() { // only bacon works
     gameState = "end";
   }
   
+  image(bird, x2-(birdSize/2), y2-(birdSize/2), birdSize, birdSize); 
   image(dog, x-(size/2), y-(size/2), size, size); 
 } // end level 3
 
