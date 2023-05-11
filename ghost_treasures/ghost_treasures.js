@@ -2,13 +2,11 @@
 var canvasSize = 870;
 var tSize; // text size
 var x, y; // ghost coordinates
-var x2, y2, x3, y3; // other ghost cordinates
-var wSpider, hSpider, spiderX, spiderY, spider2X, spider2Y;
 var wSize, hSize;  // ghost size
+var wSpider, hSpider, spiderX, spiderY, spider2X, spider2Y; // spider info
 var score, itemsOutOf; // score out of x items
 var strikes; // stikes of spider hits
-var strike; // T/F to control strikes
-var showScore; // true/fase to show the score
+var showScore; // true/false to show the score
 var lvl; // level
 var gameState, prevGameState; // game states
 var ghost, ghost2, ghost3, spider, exterior, lvrm, bkrm, at, bedrm, green, door; // characters & backgrounds
@@ -17,16 +15,16 @@ var journal, map, gem; // bkrm items
 var blanket, k; // bedrm items
 var shield, compass, chest; // attic items
 var potion, pumpkin, apple; // greenhouse items
-var startButton, restartButton; // buttons
 var lanT, cT, bnaT, jT, mapT, gemT, blT, kT, sT, compT, chT, poT, pumpT, aplT; // true/false to draw items
-var g1, g2, g3;
-g1 = g2 = g3 = false;
+var startButton, restartButton; // buttons
+var selChar; // character selection menu
+var g1, g2, g3; // true/false for character selection
 
 function preload() { 
   // Characters
   ghost = loadImage('ghost.png');
-  //ghost2 = loadImage('ghost2.png');
-  //ghost3 = loadImage('ghost3.png');
+  ghost2 = loadImage('ghost2.png');
+  ghost3 = loadImage('ghost3.png');
   spider = loadImage('spider.png');
   
   // Backgrounds
@@ -53,7 +51,7 @@ function preload() {
   pumpkin = loadImage('pumpkin2.png');
   potion = loadImage('potion.png');
   apple = loadImage('apple.png');
-}
+} // end preload
 
 function setup() {
   createCanvas(canvasSize, (3/5)*canvasSize);
@@ -66,6 +64,7 @@ function resetAll() {
   itemsOutOf = 0;
   showScore = false; // don't show score on title screen
   strike = true;
+  g1 = g2 = g3 = false;
   lvl = "0";
   wSize = 80;
   hSize = wSize*1.4;
@@ -74,7 +73,7 @@ function resetAll() {
   resetLvL();
   prevGameState = "none";
   gameState = "start";
-}
+} // end resetAll
 
 function resetLvL() {
   lanT = cT = bnaT = jT = mapT = gemT = blT = kT = sT = compT = chT = poT = pumpT = aplT = true;
@@ -84,7 +83,7 @@ function resetLvL() {
   spiderY = spider2Y = -hSize*2;
   score = 0;
   strikes = 0;
-}
+} // end resetLvL
 
 function draw() {
   background(220);
@@ -157,17 +156,14 @@ function draw() {
     lvl4Obj();
   }
   
-  // Score - move to next level
+  // Score -> move to next level
   if (score >= 2 && lvl == "1") {
-    //resetLvL();
     gameState = "lvl1Compl";
   }
   else if (score >= 3 && lvl == "2") {
-    //resetLvL();
     gameState = "lvl2Compl";
   }
   else if (score >= 4 && lvl == "3") {
-    //resetLvL();
     gameState = "lvl3Compl";
   }
   else if (score >= 5 && lvl == "4") {
@@ -177,22 +173,28 @@ function draw() {
     gameState = "win";
   }
   
-  // Win
+  // Win or Lose
   if (gameState == "win") {
-    resetLvL();
     win();
   }
   else if (gameState == "lose") {
     lose();
   }
-
-  //clear();
+  
   // Ghost character everywhere except Objective screens
   if (lvl != "Obj1" && lvl != "Obj2" && lvl != "Obj3" && lvl != "Obj4") {
-    image(ghost, x-(wSize/2), y-(hSize/2), wSize, hSize);
+    if (g2) {
+      image(ghost2, x-(wSize/2), y-(hSize/2), wSize, hSize);
+    }
+    else if (g3) {
+      image(ghost3, x-(wSize/2), y-(hSize/2), wSize, hSize);
+    }
+    else {
+      image(ghost, x-(wSize/2), y-(hSize/2), wSize, hSize);
+    }
   }
   
-  // Spider on lvl 2 - one, slow
+  // Spider on lvl 2 (one, slow)
   if (lvl == "2") {
     spiderX = spiderX + random(2);
     spiderY = spiderY + random(2);
@@ -203,7 +205,7 @@ function draw() {
     }
   }
   
-  // Spider on lvl 3 - two, slow
+  // Spiders on lvl 3 (two, a bit faster)
   if (lvl == "3") {
     spiderX = spiderX + random(3);
     spiderY = spiderY + random(3);
@@ -221,7 +223,7 @@ function draw() {
     }
   }
   
-  // Spider on lvl 4 - two, fast
+  // Spiders on lvl 4 (two, fast)
   if (lvl == "4") {
     spiderX = spiderX + random(4);
     spiderY = spiderY + random(4);
@@ -285,7 +287,7 @@ function lvl1Obj() {
     startButton.position(width/2-(startButton.width/2), height-height/4);
     startButton.mousePressed(startGame);
   }
-}
+} // end lvl1Obj
 
 function lvl2Obj() {
   image(door, 0, 0, width, height);
@@ -302,7 +304,7 @@ function lvl2Obj() {
     startButton.position(width/2-(startButton.width/2), height-height/4);
     startButton.mousePressed(startGame);
   }
-}
+} // end lvl2Obj
 
 function lvl3Obj() {
   image(door, 0, 0, width, height);
@@ -319,7 +321,7 @@ function lvl3Obj() {
     startButton.position(width/2-(startButton.width/2), height-height/4);
     startButton.mousePressed(startGame);
   }
-}
+} // end lvl3Obj
 
 function lvl4Obj() {
   image(door, 0, 0, width, height);
@@ -336,17 +338,56 @@ function lvl4Obj() {
     startButton.position(width/2-(startButton.width/2), height-height/4);
     startButton.mousePressed(startGame);
   }
-}
+} // end lvl4Obj
 
 function titleScreen() {
   image(exterior, 0, 0, width, height);
+  textSize(tSize*2.2);
+  text("Ghost Treasures", width/2, 50);
+  textSize(tSize); // return to normal text size
+  //text("Choose Your Ghost", width/8, height/6);
+  text("Choose Your Ghost", width-width/6, height/6);
+  
+  //x = width/6;
+  x = width-width/8;
+  y = height/3-10;
+  
+  if (!selChar) {
+    selChar = createSelect();
+    //selChar.position(30, height/5);
+    selChar.position(width-width/4, height/5);
+    selChar.option('Ghost 1');
+    selChar.option('Ghost 2');
+    selChar.option('Ghost 3');
+    selChar.selected('Ghost 1');
+    selChar.changed(selectGhost);
+  }
   
   if (!startButton) {
     startButton = createButton('Play');
-    startButton.position(width/2+10, height-height/3);
+    //startButton.position(width-width/4, height/6);
+    startButton.position(60, height/6);
+    startButton.style('font-size', '20px');
+    startButton.size(90, 30);
     startButton.mousePressed(startGame);
   }
-}
+} // end titleScreen
+
+function selectGhost() {
+    character = selChar.value();
+    if (character == 'Ghost 1') {
+      g1 = true;
+      g2 = g3 = false;
+    }
+    else if (character == 'Ghost 2') {
+      g2 = true;
+      g1 = g3 = false;
+    }
+    else if (character == 'Ghost 3') {
+      g3 = true;
+      g1 = g2 = false;
+    }
+} // end selectGhost
 
 function startGame() {
   startButton.remove();
@@ -354,6 +395,10 @@ function startGame() {
   if (restartButton) {
     restartButton.remove();
     restartButton = undefined;
+  }
+  if (selChar) {
+    selChar.remove();
+    selChar = undefined;
   }
   showScore = true;
   resetLvL();
@@ -380,19 +425,21 @@ function startGame() {
   else {
     gameState = "lvl1Obj";
   }
-}
+} // end startGame
 
 function restartGame() {
   restartButton.remove();
   restartButton = undefined;
-  startButton.remove();
-  startButton = undefined;
+  if (startButton) {
+    startButton.remove();
+    startButton = undefined;
+  }
   resetAll();
-}
+} // end restartGame
 
 function livingroom() {
   image(lvrm, 0, 0, width, height);
-  text("Living Room", width/2, height-20); // text to display, where to put it coords
+  text("Living Room", width/2, height-20);
   
   var lanternX = width-width/3;
   var lanternY = height-height/3-10;
@@ -458,7 +505,7 @@ function livingroom() {
     y = height - 90;
     gameState = "bedrm"; // upstairs
   }
-} // end level 1
+} // end livingroom
 
 function bookroom() {
   image(bkrm, 0, 0, width, height);
@@ -554,7 +601,7 @@ function greenhouse() {
     y = height/2;
     gameState = "lvrm";
   }
-}
+} // end bookroom
 
 function bedroom() {
   image(bedrm, 0, 0, width, height);
@@ -575,7 +622,7 @@ function bedroom() {
   if (kT) {
     image(k, kX, kY, 30, 40);
   }
-  if (dist(kX, kY, x, y) < wSize/2 && kT && lvl == "4") {
+  if (dist(kX+15, kY+20, x, y) < wSize/2 && kT && lvl == "4") {
     score = score + 1;
     kT = false;
   }
@@ -603,7 +650,7 @@ function bedroom() {
     y = height-height/4;
     gameState = "attic";
   }
-}
+} // end bedroom
 
 function attic() {
   image(at, 0, 0, width, height);
@@ -614,7 +661,7 @@ function attic() {
   if (chT) {
     image(chest, chestX, chestY, 110, 90);
   }
-  if (dist(chestX, chestY, x, y) < wSize/2 && chT && lvl == "4") {
+  if (dist(chestX+55, chestY+45, x, y) < wSize/2 && chT && lvl == "4") {
     score = score + 1;
     chT = false;
   }
@@ -624,7 +671,7 @@ function attic() {
   if (sT) {
     image(shield, shieldX, shieldY, 110, 90);
   }
-  if (dist(shieldX, shieldY, x, y) < wSize/2 && sT && lvl == "2") {
+  if (dist(shieldX+55, shieldY+45, x, y) < wSize/2 && sT && lvl == "2") {
     score = score + 1;
     sT = false;
   }
@@ -634,7 +681,7 @@ function attic() {
   if (compT) {
     image(compass, compassX, compassY, 30, 30);
   }
-  if (dist(compassX, compassY, x, y) < wSize/2 && compT && lvl == "3") {
+  if (dist(compassX+15, compassY+15, x, y) < wSize/2 && compT && lvl == "3") {
     score = score + 1;
     compT = false;
   }
@@ -651,7 +698,7 @@ function attic() {
     y = height/5;
     gameState = "bedrm";
   }
-} 
+} // end attic
 
 function win() {
   background(65, 57, 82);
@@ -659,17 +706,15 @@ function win() {
   textSize(tSize*2);
   showScore = false;
   text("You Won!", width/2, 50);
+  textSize(tSize);
+  text(("Thanks for playing!"), width/2, 90);
   
   if (!restartButton) {
     restartButton = createButton('Replay Game');
-    restartButton.position(width/2-(restartButton.width/2), height/2);
+    restartButton.position(width/2-(restartButton.width/2), height/2 + 40);
     restartButton.mousePressed(restartGame);
   }
-  
-  //wSize = wSize*2;
-  //hSize = wSize*1.4;
-  //image(ghost, (width/2)-(wSize/2), (height/2)-(hSize/2), wSize, hSize);
-}
+} // end win
 
 function lose() {
   background(65, 57, 82);
@@ -691,7 +736,4 @@ function lose() {
     restartButton.position(width/2-(restartButton.width/2), height/2 + startButton.height + 30);
     restartButton.mousePressed(restartGame);
   }
-  //wSize = wSize*2;
-  //hSize = wSize*1.4;
-  //image(ghost, (width/2)-(wSize/2), (height/2)-(hSize/2), wSize, hSize);
-}
+} // end lose
