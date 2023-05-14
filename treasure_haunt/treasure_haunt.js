@@ -10,7 +10,7 @@ var itemBar = 70;
 var tSize; // text size
 var x, y; // ghost coordinates
 var wSize, hSize;  // ghost size
-var wSpider, hSpider, spiderX, spiderY, spider2X, spider2Y; // spider info
+var wSpider, hSpider, spiderX, spiderY, spider2X, spider2Y, spider3X, spider3Y; // spider info
 var score, itemsOutOf; // score out of x items
 var strikes; // stikes of spider hits
 var showScore; // true/false to show the score
@@ -22,7 +22,9 @@ var journal, map, gem; // bkrm items
 var blanket, k; // bedrm items
 var shield, compass, chest; // attic items
 var potion, pumpkin, apple; // greenhouse items
+var sword, crown, pearls, goblet, watch; // extra items
 var lanT, cT, bnaT, jT, mapT, gemT, blT, kT, sT, compT, chT, poT, pumpT, aplT; // true/false to draw items
+var swT, crnT, pT, gobT, wT; // true/false extra items
 var startButton, restartButton; // buttons
 var selChar; // character selection menu
 var g1, g2, g3; // true/false for character selection
@@ -59,6 +61,11 @@ function preload() {
   pumpkin = loadImage('pumpkin2.png');
   potion = loadImage('potion.png');
   apple = loadImage('apple.png');
+  sword = loadImage('sword.png');
+  crown = loadImage('crown.png');
+  pearls = loadImage('pearls.png');
+  goblet = loadImage('goblet.png');
+  watch = loadImage('pocket-watch.png');
   check = loadImage('check.png');
 } // end preload
 
@@ -89,10 +96,11 @@ function resetAll() {
 // Reset level items, locations, score
 function resetLvL() {
   lanT = cT = bnaT = jT = mapT = gemT = blT = kT = sT = compT = chT = poT = pumpT = aplT = true;
+  swT = crnT = pT = gobT = wT = true;
   x = width/2;
   y = (height-itemBar)/2;
-  spiderX = spider2X = -hSize*2;
-  spiderY = spider2Y = -hSize*2;
+  spiderX = spider2X = spider3X = -hSize*2;
+  spiderY = spider2Y = spider3Y = -hSize*2;
   score = 0;
   strikes = 0;
 } // end resetLvL
@@ -168,6 +176,10 @@ function draw() {
     lvl = "Obj4";
     lvl4Obj();
   }
+  else if (gameState == "lvl4Compl") {
+    lvl = "Obj5";
+    lvl5Obj();
+  }
   
   // Score -> move to next level
   if (score >= 2 && lvl == "1") {
@@ -179,8 +191,11 @@ function draw() {
   else if (score >= 4 && lvl == "3") {
     gameState = "lvl3Compl";
   }
-  else if (score >= 5 && lvl == "4") {
-    x = width/2; // set ghost position for lose screen
+  else if (score >=5 && lvl == "4") {
+    gameState = "lvl4Compl";
+  }
+  else if (score >= 5 && lvl == "5") {
+    x = width/2; // set ghost position for win screen
     y = (height-itemBar)/3;
     lvl = "end";
     gameState = "win";
@@ -195,7 +210,7 @@ function draw() {
   }
   
   // Ghost character everywhere except Objective screens
-  if (lvl != "Obj1" && lvl != "Obj2" && lvl != "Obj3" && lvl != "Obj4") {
+  if (lvl != "Obj1" && lvl != "Obj2" && lvl != "Obj3" && lvl != "Obj4" && lvl != "Obj5") {
     if (g2) {
       image(ghost2, x-(wSize/2), y-(hSize/2), wSize, hSize);
     }
@@ -311,8 +326,9 @@ function draw() {
   }
   
   
-  // Spiders on lvl 4 (two, fast)
+  // Level 4
   if (lvl == "4") {
+    // Spiders on lvl 4 (two, fast)
     spiderX = spiderX + random(4);
     spiderY = spiderY + random(4);
     spider2X = spider2X - random(4);
@@ -341,7 +357,7 @@ function draw() {
     text("Key", (1/6)*width, ((height-itemBar)+(itemBar/2)));
     text("Potion", (2/6)*width, ((height-itemBar)+(itemBar/2)));
     text("Journal", (3/6)*width, ((height-itemBar)+(itemBar/2)));
-    text("Treasure", (4/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Chest", (4/6)*width, ((height-itemBar)+(itemBar/2)));
     text("Bow & Arrow", (5/6)*width, ((height-itemBar)+(itemBar/2)));
     textSize(tSize);
     textAlign(CENTER);
@@ -362,16 +378,77 @@ function draw() {
     }
   }
   
+  // Level 5
+  if (lvl == "5") {
+    // Spiders lvl 5 (three, fast)
+    spiderX = spiderX + random(4);
+    spiderY = spiderY + random(4);
+    spider2X = spider2X - random(4);
+    spider2Y = spider2Y + random(4);
+    spider3X = spider3X + random(4);
+    spider3Y = spider3Y + random(4);
+    image(spider, spiderX, spiderY, wSpider, hSpider);
+    image(spider, spider2X, spider2Y, wSpider, hSpider);
+    image(spider, spider3X, spider3Y, wSpider, hSpider);
+    if (spiderX <= 0 || spiderX >= width || spiderY <= 0 || spiderY >= (height-itemBar)) {
+      spiderX = random(2, width-2);
+      spiderY = 2; //random(2, (height-itemBar)-2);
+    }
+    if (spider2X <= 0 || spider2X >= width || spider2Y <= 0 || spider2Y >= (height-itemBar)) {
+      spider2X = random(2, width-2);
+      spider2Y = 2;
+    }
+    if (spider3X <= 0 || spider3X >= width || spider3Y <= 0 || spider3Y >= (height-itemBar)) {
+      spider3X = random(2, width-2);
+      spider3Y = 2;
+    }
+    
+    // Checklist
+    noFill();
+    square((1/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((2/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((3/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((4/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((5/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    fill(240);
+    textAlign(LEFT);
+    textSize((3/4)*tSize);
+    text("Goblet", (1/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Pearls", (2/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Sword", (3/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Crown", (4/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Pocket Watch", (5/6)*width, ((height-itemBar)+(itemBar/2)));
+    textSize(tSize);
+    textAlign(CENTER);
+    if (!gobT) {
+      image(check, (1/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!pT) {
+      image(check, (2/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!swT) {
+      image(check, (3/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!crnT) {
+      image(check, (4/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!wT) {
+      image(check, (5/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+  }
+  
   // Lose if spider touches you
   distToSp1 = dist(spiderX+(wSpider/2), spiderY+(hSpider), x, y);
   distToSp2 = dist(spider2X+(hSpider), spider2Y+(hSpider), x, y);
-  if (distToSp1 < ((2/3)*wSize) || distToSp2 < ((2/3)*wSize)) {
+  distToSp3 = dist(spider3X+(hSpider), spider3Y+(hSpider), x, y);
+  if (distToSp1 < ((2/3)*wSize) || distToSp2 < ((2/3)*wSize) || distToSp3 < ((2/3)*wSize)) {
     strikes = strikes + 1;
     spiderX = random(2, width-2);
     spider2X = random(2, width-2);
-    spiderY = spider2Y = 2;
+    spider3X = random(2, width-2);
+    spiderY = spider2Y = spider3Y = 2;
     if (strikes >= 3) {
-      spiderX = spiderY = spider2X = spider2Y = -hSize*2;
+      spiderX = spiderY = spider2X = spider2Y = spider3X = spider3Y = -hSize*2;
       x = width/2; // set ghost position for lose screen
       y = (height-itemBar)/3;
       lvl = "end";
@@ -468,6 +545,25 @@ function lvl4Obj() {
   }
 } // end lvl4Obj
 
+// Level 5 Objective
+function lvl5Obj() {
+  image(door, 0, 0, width, (height-itemBar));
+  showScore = false;
+  fill(65, 57, 82, 200); // square bkdg
+  rect(width/3, (height-itemBar)/10, width/3, (3/4)*(height-itemBar));
+  fill(240); // text color
+  text("Level 5", width/2, (height-itemBar)/6);
+  textAlign(LEFT);
+  text("Retrieve 5 items:\n - Goblet\n - Pearls\n - Sword\n - Crown\n - Pocket Watch\n\nAvoid the spiders.\n  There's three.", width/3+20, (height-itemBar)/4);
+  prevGameState = "lvl5Obj";
+  if (!startButton) {
+    startButton = createButton('Begin');
+    startButton.style('font-size', '16px');
+    startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
+    startButton.mousePressed(startGame);
+  }
+} // end lvl5Obj
+
 // Title screen
 function titleScreen() {
   image(exterior, 0, 0, width, (height-itemBar));
@@ -549,6 +645,11 @@ function startGame() {
     itemsOutOf = 5;
     gameState = "lvrm";
   }
+  else if (prevGameState == "lvl5Obj") {
+    lvl = "5";
+    itemsOutOf = 5;
+    gameState = "lvrm";
+  }
   else {
     gameState = "lvl1Obj";
   }
@@ -598,6 +699,16 @@ function livingroom() {
   if (dist(bnaX+40, bnaY+40, x, y) < wSize/2 && bnaT && lvl == "4") {
     score = score + 1;
     bnaT = false;
+  }
+  
+  var wX = width/11;
+  var wY = (9/10)*(height-itemBar);
+  if (wT && lvl == "5") {
+    image(watch, wX, wY, 40, 35);
+  }
+  if (dist(wX+20, wY+17, x, y) < wSize/2 && wT && lvl == "5") {
+    score = score + 1;
+    wT = false;
   }
   
   fill(152, 214, 179); // square color
@@ -671,6 +782,16 @@ function bookroom() {
     jT = false;
   }
   
+  var swordX = width-110;
+  var swordY = (1/3)*(height-itemBar);
+  if (swT && lvl == "5") {
+    image(sword, swordX, swordY, 70, 120);
+  }
+  if (dist(swordX+35, swordY+60, x, y) < wSize/2 && swT && lvl == "5") {
+    score = score + 1;
+    swT = false;
+  }
+  
   fill(152, 214, 179); // square color
   
   var lvrmX = 10;
@@ -720,6 +841,16 @@ function greenhouse() {
     aplT = false;
   }
   
+  var gobX = width-width/5-10;
+  var gobY = (2/3)*(height-itemBar)-18;
+  if (gobT && lvl == "5") {
+    image(goblet, gobX, gobY, 45, 55);
+  }
+  if (dist(gobX+22, gobY+28, x, y) < wSize/2 && gobT && lvl == "5") {
+    score = score + 1;
+    gobT = false;
+  }
+  
   fill(152, 214, 179); // square color
   
   var lvrmX = width/6;
@@ -757,6 +888,16 @@ function bedroom() {
   if (dist(kX+15, kY+20, x, y) < wSize/2 && kT && lvl == "4") {
     score = score + 1;
     kT = false;
+  }
+  
+  var pearlX = width-width/6;
+  var pearlY = (5/6)*(height-itemBar);
+  if (pT && lvl == "5") {
+    image(pearls, pearlX, pearlY, 50, 35);
+  }
+  if (dist(pearlX+25, pearlY+18, x, y) < wSize/2 && pT && lvl == "5") {
+    score = score + 1;
+    pT = false;
   }
   
   fill(152, 214, 179); // square color
@@ -820,6 +961,16 @@ function attic() {
     compT = false;
   }
   
+  var crnX = width/14;
+  var crnY = (1/2)*(height-itemBar)-27;
+  if (crnT && lvl == "5") {
+    image(crown, crnX, crnY, 70, 60);
+  }
+  if (dist(crnX+35, crnY+30, x, y) < wSize/2 && crnT && lvl == "5") {
+    score = score + 1;
+    crnT = false;
+  }
+  
   fill(152, 214, 179); // square color
   
   var bedrmX = width/2;
@@ -842,6 +993,7 @@ function win() {
   text("You Won!", width/2, 50);
   textSize(tSize);
   text(("Thanks for playing!"), width/2, 90);
+  strikes = 0;
   
   if (!restartButton) {
     restartButton = createButton('Replay Game');
