@@ -345,10 +345,10 @@ function draw() {
     text("Bow & Arrow", (5/6)*width, ((height-itemBar)+(itemBar/2)));
     textSize(tSize);
     textAlign(CENTER);
-    if (!bnaT) {
+    if (!kT) {
       image(check, (1/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
     }
-    if (!kT) {
+    if (!poT) {
       image(check, (2/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
     }
     if (!jT) {
@@ -357,7 +357,7 @@ function draw() {
     if (!chT) {
       image(check, (4/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
     }
-    if (!poT) {
+    if (!bnaT) {
       image(check, (5/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
     }
   }
