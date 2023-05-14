@@ -72,6 +72,7 @@ function preload() {
 // Create canvas
 function setup() {
   createCanvas(canvasSize, (3/5)*canvasSize+itemBar);
+  textFont('fantasy');
   resetAll();
 } // end setup
 
@@ -482,6 +483,7 @@ function lvl1Obj() {
   textAlign(CENTER);
   if (!startButton) {
     startButton = createButton('Begin');
+    startButton.style('font-family', 'fantasy');
     startButton.style('font-size', '16px');
     startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
@@ -501,6 +503,7 @@ function lvl2Obj() {
   prevGameState = "lvl2Obj";
   if (!startButton) {
     startButton = createButton('Begin');
+    startButton.style('font-family', 'fantasy');
     startButton.style('font-size', '16px');
     startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
@@ -520,6 +523,7 @@ function lvl3Obj() {
   prevGameState = "lvl3Obj";
   if (!startButton) {
     startButton = createButton('Begin');
+    startButton.style('font-family', 'fantasy');
     startButton.style('font-size', '16px');
     startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
@@ -539,6 +543,7 @@ function lvl4Obj() {
   prevGameState = "lvl4Obj";
   if (!startButton) {
     startButton = createButton('Begin');
+    startButton.style('font-family', 'fantasy');
     startButton.style('font-size', '16px');
     startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
@@ -558,6 +563,7 @@ function lvl5Obj() {
   prevGameState = "lvl5Obj";
   if (!startButton) {
     startButton = createButton('Begin');
+    startButton.style('font-family', 'fantasy');
     startButton.style('font-size', '16px');
     startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
@@ -579,6 +585,7 @@ function titleScreen() {
   if (!selChar) {
     selChar = createSelect();
     selChar.position(width-width/4, (height-itemBar)/5);
+    selChar.style('font-family', 'fantasy');
     selChar.option('Ghost 1');
     selChar.option('Ghost 2');
     selChar.option('Ghost 3');
@@ -588,6 +595,7 @@ function titleScreen() {
   
   if (!startButton) {
     startButton = createButton('Play');
+    startButton.style('font-family', 'fantasy');
     startButton.style('font-size', '20px');
     startButton.position(width/2-(startButton.width/2), height-((3/4)*itemBar));
     startButton.mousePressed(startGame);
@@ -997,6 +1005,7 @@ function win() {
   
   if (!restartButton) {
     restartButton = createButton('Replay Game');
+    restartButton.style('font-family', 'fantasy');
     restartButton.style('font-size', '20px');
     restartButton.position(width/2-(restartButton.width/2+10), (height-itemBar)/2 + 40);
     restartButton.mousePressed(restartGame);
@@ -1014,6 +1023,7 @@ function lose() {
   
   if (!startButton) {
     startButton = createButton('Retry Level');
+    startButton.style('font-family', 'fantasy');
     startButton.style('font-size', '20px');
     startButton.position(width/2-(startButton.width/2+10), (height-itemBar)/2);
     startButton.mousePressed(startGame);
@@ -1021,6 +1031,7 @@ function lose() {
   
   if (!restartButton) {
     restartButton = createButton('Restart Game');
+    restartButton.style('font-family', 'fantasy');
     restartButton.style('font-size', '20px');
     restartButton.position(width/2-(restartButton.width/2+10), (height-itemBar)/2 + startButton.height + 30);
     restartButton.mousePressed(restartGame);
