@@ -327,10 +327,10 @@ function draw() {
     textAlign(LEFT);
     textSize((3/4)*tSize);
     text("Bow & Arrow", (1/6)*width, ((height-itemBar)+(itemBar/2)));
-    text("Key", (2/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Potion", (2/6)*width, ((height-itemBar)+(itemBar/2)));
     text("Journal", (3/6)*width, ((height-itemBar)+(itemBar/2)));
     text("Treasure", (4/6)*width, ((height-itemBar)+(itemBar/2)));
-    text("Potion", (5/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Key", (5/6)*width, ((height-itemBar)+(itemBar/2)));
     textSize(tSize);
     textAlign(CENTER);
     if (!bnaT) {
@@ -443,7 +443,7 @@ function lvl4Obj() {
   fill(240); // text color
   text("Level 4", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 5 items:\n - Bow & Arrow\n - Key\n - Journal\n - Treasure Chest\n - Potion\n\nAvoid the spiders.\n  They're faster now.", width/3+20, (height-itemBar)/4);
+  text("Retrieve 5 items:\n - Bow & Arrow\n - Potion\n - Journal\n - Treasure Chest\n - Key\n\nAvoid the spiders.\n  They're faster now.", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl4Obj";
   if (!startButton) {
     startButton = createButton('Begin');
@@ -480,7 +480,8 @@ function titleScreen() {
     startButton = createButton('Play');
     //startButton.position(width-width/4, (height-itemBar)/6);
     startButton.style('font-size', '20px');
-    startButton.position(60, (height-itemBar)/6);
+    //startButton.position(60, (height-itemBar)/6);
+    startButton.position(width/2-(startButton.width/2), height-((3/4)*itemBar));
     startButton.mousePressed(startGame);
   }
 } // end titleScreen
