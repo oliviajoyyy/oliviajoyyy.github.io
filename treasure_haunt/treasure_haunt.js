@@ -1,3 +1,9 @@
+/**
+ * Treasure Haunt
+ *
+ * by Olivia Joy Cacdac
+ */
+ 
 // global variables
 var canvasSize = 900;
 var itemBar = 70;
@@ -21,6 +27,7 @@ var startButton, restartButton; // buttons
 var selChar; // character selection menu
 var g1, g2, g3; // true/false for character selection
 
+// Load images
 function preload() { 
   // Characters
   ghost = loadImage('ghost.png');
@@ -55,11 +62,13 @@ function preload() {
   check = loadImage('check.png');
 } // end preload
 
+// Create canvas
 function setup() {
   createCanvas(canvasSize, (3/5)*canvasSize+itemBar);
   resetAll();
 } // end setup
 
+// Reset all variables
 function resetAll() {
   tSize = 22;
   textSize(tSize);
@@ -77,6 +86,7 @@ function resetAll() {
   gameState = "start";
 } // end resetAll
 
+// Reset level items, locations, score
 function resetLvL() {
   lanT = cT = bnaT = jT = mapT = gemT = blT = kT = sT = compT = chT = poT = pumpT = aplT = true;
   x = width/2;
@@ -87,8 +97,8 @@ function resetLvL() {
   strikes = 0;
 } // end resetLvL
 
+// Game
 function draw() {
-  //background(220);
   background(65, 57, 82);
   fill(240); // text color
   textAlign(CENTER); // center score and room label
@@ -197,7 +207,9 @@ function draw() {
     }
   }
   
+  // Level 1
   if (lvl == "1") {
+    // Checklist
     noFill();
     square((1/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
     square((2/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
@@ -370,7 +382,6 @@ function draw() {
   // Show level number & strikes
   fill(240); // text color
   if (showScore) {
-    //text(("Items: " + score + "/" + itemsOutOf), width/2, 40);
     textSize((2/3)*tSize);
     text(("Level " + lvl), width/2, 60);
     if (lvl != "1") {
@@ -380,6 +391,7 @@ function draw() {
   }
 } // end draw
 
+// Level 1 Objective
 function lvl1Obj() {
   image(door, 0, 0, width, (height-itemBar));
   showScore = false;
@@ -399,6 +411,7 @@ function lvl1Obj() {
   }
 } // end lvl1Obj
 
+// Level 2 Objective
 function lvl2Obj() {
   image(door, 0, 0, width, (height-itemBar));
   showScore = false;
@@ -417,6 +430,7 @@ function lvl2Obj() {
   }
 } // end lvl2Obj
 
+// Level 3 Objective
 function lvl3Obj() {
   image(door, 0, 0, width, (height-itemBar));
   showScore = false;
@@ -435,6 +449,7 @@ function lvl3Obj() {
   }
 } // end lvl3Obj
 
+// Level 4 Objective
 function lvl4Obj() {
   image(door, 0, 0, width, (height-itemBar));
   showScore = false;
@@ -453,21 +468,20 @@ function lvl4Obj() {
   }
 } // end lvl4Obj
 
+// Title screen
 function titleScreen() {
   image(exterior, 0, 0, width, (height-itemBar));
   textSize(tSize*2.2);
-  text("Ghost Treasures", width/2, 50);
-  textSize(tSize); // return to normal text size
-  //text("Choose Your Ghost", width/8, (height-itemBar)/6);
+  text("Treasure Haunt", width/2, 50);
+  textSize(tSize);
   text("Choose Your Ghost", width-width/6, (height-itemBar)/6);
   
-  //x = width/6;
   x = width-width/8;
   y = (height-itemBar)/3-10;
   
+  // Character options
   if (!selChar) {
     selChar = createSelect();
-    //selChar.position(30, (height-itemBar)/5);
     selChar.position(width-width/4, (height-itemBar)/5);
     selChar.option('Ghost 1');
     selChar.option('Ghost 2');
@@ -478,14 +492,13 @@ function titleScreen() {
   
   if (!startButton) {
     startButton = createButton('Play');
-    //startButton.position(width-width/4, (height-itemBar)/6);
     startButton.style('font-size', '20px');
-    //startButton.position(60, (height-itemBar)/6);
     startButton.position(width/2-(startButton.width/2), height-((3/4)*itemBar));
     startButton.mousePressed(startGame);
   }
 } // end titleScreen
 
+// Character selection
 function selectGhost() {
     character = selChar.value();
     if (character == 'Ghost 1') {
@@ -502,6 +515,7 @@ function selectGhost() {
     }
 } // end selectGhost
 
+// Start game, remove buttons
 function startGame() {
   startButton.remove();
   startButton = undefined;
@@ -540,6 +554,7 @@ function startGame() {
   }
 } // end startGame
 
+// Restart game from beginning
 function restartGame() {
   restartButton.remove();
   restartButton = undefined;
@@ -550,9 +565,9 @@ function restartGame() {
   resetAll();
 } // end restartGame
 
+// Living Room
 function livingroom() {
   image(lvrm, 0, 0, width, (height-itemBar));
-  //text("Living Room", width/2, (height-itemBar)-20);
   text("Living Room", width/2, 40);
   
   var lanternX = width-width/3;
@@ -575,7 +590,7 @@ function livingroom() {
     cT = false;
   }
   
-  var bnaX = width/4+10;
+  var bnaX = width/4+10; // bow & arrow
   var bnaY = (height-itemBar)-(height-itemBar)/2.8;
   if (bnaT) {
     image(bna, bnaX, bnaY, 80, 80);
@@ -621,9 +636,9 @@ function livingroom() {
   }
 } // end livingroom
 
+// Book Room
 function bookroom() {
   image(bkrm, 0, 0, width, (height-itemBar));
-  //text("Book Room", width/2, (height-itemBar)-20);
   text("Book Room", width/2, 40);
   
   var mapX = width/3;
@@ -670,9 +685,9 @@ function bookroom() {
   }
 } // end level 2
 
+// Greenhouse
 function greenhouse() {
   image(green, 0, 0, width, (height-itemBar));
-  //text("Greenhouse", width/2, (height-itemBar)-20);
   text("Greenhouse", width/2, 40);
   
   var pumpkinX = width-width/6;
@@ -719,9 +734,9 @@ function greenhouse() {
   }
 } // end bookroom
 
+// Bedroom, upstairs
 function bedroom() {
   image(bedrm, 0, 0, width, (height-itemBar));
-  //text("Bedroom", width/2, (height-itemBar)-20);
   text("Bedroom", width/2, 40);
   
   var blanketX = width/4.5;
@@ -734,7 +749,7 @@ function bedroom() {
     blT = false;
   }
   
-  var kX = width-width/2.7;
+  var kX = width-width/2.7; // key
   var kY = (height-itemBar)/2+8;
   if (kT) {
     image(k, kX, kY, 30, 40);
@@ -769,6 +784,7 @@ function bedroom() {
   }
 } // end bedroom
 
+// Attic
 function attic() {
   image(at, 0, 0, width, (height-itemBar));
   text("Attic", width/2, (height-itemBar)-10);
@@ -818,8 +834,8 @@ function attic() {
   }
 } // end attic
 
+// Win game
 function win() {
-  background(65, 57, 82);
   fill(240);
   textSize(tSize*2);
   showScore = false;
@@ -835,8 +851,8 @@ function win() {
   }
 } // end win
 
+// Lose game, retry options
 function lose() {
-  background(65, 57, 82);
   showScore = false;
   textSize(tSize*2);
   fill(240);
