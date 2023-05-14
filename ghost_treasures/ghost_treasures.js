@@ -1,5 +1,6 @@
 // global variables
-var canvasSize = 870;
+var canvasSize = 900;
+var itemBar = 70;
 var tSize; // text size
 var x, y; // ghost coordinates
 var wSize, hSize;  // ghost size
@@ -9,7 +10,7 @@ var strikes; // stikes of spider hits
 var showScore; // true/false to show the score
 var lvl; // level
 var gameState, prevGameState; // game states
-var ghost, ghost2, ghost3, spider, exterior, lvrm, bkrm, at, bedrm, green, door; // characters & backgrounds
+var ghost, ghost2, ghost3, spider, exterior, lvrm, bkrm, at, bedrm, green, door, check; // characters & backgrounds
 var lantern, coins, bna; // lvrm items
 var journal, map, gem; // bkrm items
 var blanket, k; // bedrm items
@@ -51,15 +52,16 @@ function preload() {
   pumpkin = loadImage('pumpkin2.png');
   potion = loadImage('potion.png');
   apple = loadImage('apple.png');
+  check = loadImage('check.png');
 } // end preload
 
 function setup() {
-  createCanvas(canvasSize, (3/5)*canvasSize);
+  createCanvas(canvasSize, (3/5)*canvasSize+itemBar);
   resetAll();
 } // end setup
 
 function resetAll() {
-  tSize = 20;
+  tSize = 22;
   textSize(tSize);
   itemsOutOf = 0;
   showScore = false; // don't show score on title screen
@@ -78,7 +80,7 @@ function resetAll() {
 function resetLvL() {
   lanT = cT = bnaT = jT = mapT = gemT = blT = kT = sT = compT = chT = poT = pumpT = aplT = true;
   x = width/2;
-  y = height/2;
+  y = (height-itemBar)/2;
   spiderX = spider2X = -hSize*2;
   spiderY = spider2Y = -hSize*2;
   score = 0;
@@ -86,7 +88,8 @@ function resetLvL() {
 } // end resetLvL
 
 function draw() {
-  background(220);
+  //background(220);
+  background(65, 57, 82);
   fill(240); // text color
   textAlign(CENTER); // center score and room label
   
@@ -105,8 +108,8 @@ function draw() {
   }
   if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) { // S
     y += 5;
-    if (y >= height) {
-      y = height;
+    if (y >= (height-itemBar)) {
+      y = (height-itemBar);
     }
   }
   if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) { // D
@@ -168,7 +171,7 @@ function draw() {
   }
   else if (score >= 5 && lvl == "4") {
     x = width/2; // set ghost position for lose screen
-    y = height/3;
+    y = (height-itemBar)/3;
     lvl = "end";
     gameState = "win";
   }
@@ -194,34 +197,107 @@ function draw() {
     }
   }
   
-  // Spider on lvl 2 (one, slow)
-  if (lvl == "2") {
-    spiderX = spiderX + random(2);
-    spiderY = spiderY + random(2);
-    image(spider, spiderX, spiderY, wSpider, hSpider);
-    if (spiderX <= 0 || spiderX >= width || spiderY <= 0 || spiderY >= height) {
-      spiderX = random(2, width-2);
-      spiderY = 2;
+  if (lvl == "1") {
+    noFill();
+    square((1/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((2/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    fill(240);
+    textAlign(LEFT);
+    textSize((3/4)*tSize);
+    text("Gem", (1/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Coins", (2/6)*width, ((height-itemBar)+(itemBar/2)));
+    textSize(tSize);
+    textAlign(CENTER);
+    if (!gemT) {
+      image(check, (1/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!cT) {
+      image(check, (2/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
     }
   }
   
-  // Spiders on lvl 3 (two, a bit faster)
+  // Level 2
+  if (lvl == "2") {
+    // Spiders on lvl 2 (one, slow)
+    spiderX = spiderX + random(2);
+    spiderY = spiderY + random(2);
+    image(spider, spiderX, spiderY, wSpider, hSpider);
+    if (spiderX <= 0 || spiderX >= width || spiderY <= 0 || spiderY >= (height-itemBar)) {
+      spiderX = random(2, width-2);
+      spiderY = 2;
+    }
+    
+    // Checklist
+    noFill();
+    square((1/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((2/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((3/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    fill(240);
+    textAlign(LEFT);
+    textSize((3/4)*tSize);
+    text("Blanket", (1/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Pumpkin", (2/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Shield", (3/6)*width, ((height-itemBar)+(itemBar/2)));
+    textSize(tSize);
+    textAlign(CENTER);
+    if (!blT) {
+      image(check, (1/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!pumpT) {
+      image(check, (2/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!sT) {
+      image(check, (3/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+  }
+  
+  // Level 3
   if (lvl == "3") {
+    // Spiders on lvl 3 (two, a bit faster)
     spiderX = spiderX + random(3);
     spiderY = spiderY + random(3);
     spider2X = spider2X - random(3);
     spider2Y = spider2Y + random(3);
     image(spider, spiderX, spiderY, wSpider, hSpider);
     image(spider, spider2X, spider2Y, wSpider, hSpider);
-    if (spiderX <= 0 || spiderX >= width || spiderY <= 0 || spiderY >= height) {
+    if (spiderX <= 0 || spiderX >= width || spiderY <= 0 || spiderY >= (height-itemBar)) {
       spiderX = random(2, width-2);
-      spiderY = 2; // or random(2, height-2);
+      spiderY = 2; // or random(2, (height-itemBar)-2);
     }
-    if (spider2X <= 0 || spider2X >= width || spider2Y <= 0 || spider2Y >= height) {
+    if (spider2X <= 0 || spider2X >= width || spider2Y <= 0 || spider2Y >= (height-itemBar)) {
       spider2X = random(2, width-2);
       spider2Y = 2;
     }
+    
+    // Checklist
+    noFill();
+    square((1/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((2/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((3/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((4/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    fill(240);
+    textAlign(LEFT);
+    textSize((3/4)*tSize);
+    text("Lantern", (1/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Compass", (2/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Map", (3/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Apple", (4/6)*width, ((height-itemBar)+(itemBar/2)));
+    textSize(tSize);
+    textAlign(CENTER);
+    if (!lanT) {
+      image(check, (1/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!compT) {
+      image(check, (2/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!mapT) {
+      image(check, (3/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!aplT) {
+      image(check, (4/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
   }
+  
   
   // Spiders on lvl 4 (two, fast)
   if (lvl == "4") {
@@ -231,13 +307,46 @@ function draw() {
     spider2Y = spider2Y + random(4);
     image(spider, spiderX, spiderY, wSpider, hSpider);
     image(spider, spider2X, spider2Y, wSpider, hSpider);
-    if (spiderX <= 0 || spiderX >= width || spiderY <= 0 || spiderY >= height) {
+    if (spiderX <= 0 || spiderX >= width || spiderY <= 0 || spiderY >= (height-itemBar)) {
       spiderX = random(2, width-2);
-      spiderY = 2; //random(2, height-2);
+      spiderY = 2; //random(2, (height-itemBar)-2);
     }
-    if (spider2X <= 0 || spider2X >= width || spider2Y <= 0 || spider2Y >= height) {
+    if (spider2X <= 0 || spider2X >= width || spider2Y <= 0 || spider2Y >= (height-itemBar)) {
       spider2X = random(2, width-2);
       spider2Y = 2;
+    }
+    
+    // Checklist
+    noFill();
+    square((1/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((2/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((3/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((4/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    square((5/6)*width-30, ((height-itemBar)+(itemBar/2))-15, 20);
+    fill(240);
+    textAlign(LEFT);
+    textSize((3/4)*tSize);
+    text("Bow & Arrow", (1/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Key", (2/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Journal", (3/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Treasure", (4/6)*width, ((height-itemBar)+(itemBar/2)));
+    text("Potion", (5/6)*width, ((height-itemBar)+(itemBar/2)));
+    textSize(tSize);
+    textAlign(CENTER);
+    if (!bnaT) {
+      image(check, (1/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!kT) {
+      image(check, (2/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!jT) {
+      image(check, (3/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!chT) {
+      image(check, (4/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
+    }
+    if (!poT) {
+      image(check, (5/6)*width-30, ((height-itemBar)+(itemBar/2))-20, 20, 20);
     }
   }
   
@@ -252,18 +361,18 @@ function draw() {
     if (strikes >= 3) {
       spiderX = spiderY = spider2X = spider2Y = -hSize*2;
       x = width/2; // set ghost position for lose screen
-      y = height/3;
+      y = (height-itemBar)/3;
       lvl = "end";
       gameState = "lose";
     }
   }
   
-  // Show score
+  // Show level number & strikes
   fill(240); // text color
   if (showScore) {
-    text(("Items: " + score + "/" + itemsOutOf), width/2, 40);
+    //text(("Items: " + score + "/" + itemsOutOf), width/2, 40);
     textSize((2/3)*tSize);
-    text(("Lv " + lvl), width/2, 60);
+    text(("Level " + lvl), width/2, 60);
     if (lvl != "1") {
       text(("Strikes: " + strikes + "/3"), width/2, 80);
     }
@@ -272,90 +381,94 @@ function draw() {
 } // end draw
 
 function lvl1Obj() {
-  image(door, 0, 0, width, height);
+  image(door, 0, 0, width, (height-itemBar));
   showScore = false;
   fill(65, 57, 82, 200); // square bkdg
-  rect(width/3, height/10, width/3, (3/4)*height);
+  rect(width/3, (height-itemBar)/10, width/3, (3/4)*(height-itemBar));
   fill(240); // text color
-  text("Level 1", width/2, height/6);
+  text("Level 1", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 2 items:\n- Coins\n- Gem", width/3+20, height/4);
+  text("Retrieve 2 items:\n - Coins\n - Gem", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl1Obj";
   textAlign(CENTER);
   if (!startButton) {
     startButton = createButton('Begin');
-    startButton.position(width/2-(startButton.width/2), height-height/4);
+    startButton.style('font-size', '16px');
+    startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
   }
 } // end lvl1Obj
 
 function lvl2Obj() {
-  image(door, 0, 0, width, height);
+  image(door, 0, 0, width, (height-itemBar));
   showScore = false;
   fill(65, 57, 82, 200); // square bkdg
-  rect(width/3, height/10, width/3, (3/4)*height);
+  rect(width/3, (height-itemBar)/10, width/3, (3/4)*(height-itemBar));
   fill(240); // text color
-  text("Level 2", width/2, height/6);
+  text("Level 2", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 3 items:\n- Blanket\n- Pumpkin\n- Shield\n\nAvoid the spider.", width/3+20, height/4);
+  text("Retrieve 3 items:\n - Blanket\n - Pumpkin\n - Shield\n\nAvoid the spider.", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl2Obj";
   if (!startButton) {
     startButton = createButton('Begin');
-    startButton.position(width/2-(startButton.width/2), height-height/4);
+    startButton.style('font-size', '16px');
+    startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
   }
 } // end lvl2Obj
 
 function lvl3Obj() {
-  image(door, 0, 0, width, height);
+  image(door, 0, 0, width, (height-itemBar));
   showScore = false;
   fill(65, 57, 82, 200); // square bkdg
-  rect(width/3, height/10, width/3, (3/4)*height);
+  rect(width/3, (height-itemBar)/10, width/3, (3/4)*(height-itemBar));
   fill(240); // text color
-  text("Level 3", width/2, height/6);
+  text("Level 3", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 4 items:\n- Lantern\n- Compass\n- Map\n- Apple\n\nAvoid the spiders.", width/3+20, height/4);
+  text("Retrieve 4 items:\n - Lantern\n - Compass\n - Map\n - Apple\n\nAvoid the spiders.", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl3Obj";
   if (!startButton) {
     startButton = createButton('Begin');
-    startButton.position(width/2-(startButton.width/2), height-height/4);
+    startButton.style('font-size', '16px');
+    startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
   }
 } // end lvl3Obj
 
 function lvl4Obj() {
-  image(door, 0, 0, width, height);
+  image(door, 0, 0, width, (height-itemBar));
   showScore = false;
   fill(65, 57, 82, 200); // square bkdg
-  rect(width/3, height/10, width/3, (3/4)*height);
+  rect(width/3, (height-itemBar)/10, width/3, (3/4)*(height-itemBar));
   fill(240); // text color
-  text("Level 4", width/2, height/6);
+  text("Level 4", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 5 items:\n- Bow & Arrow\n- Key\n- Journal\n- Treasure Chest\n- Potion\n\nAvoid the spiders.\n  They're faster now.", width/3+20, height/4);
+  text("Retrieve 5 items:\n - Bow & Arrow\n - Key\n - Journal\n - Treasure Chest\n - Potion\n\nAvoid the spiders.\n  They're faster now.", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl4Obj";
   if (!startButton) {
     startButton = createButton('Begin');
-    startButton.position(width/2-(startButton.width/2), height-height/4);
+    startButton.style('font-size', '16px');
+    startButton.position(width/2-(startButton.width/2), (height-itemBar)-(height-itemBar)/4);
     startButton.mousePressed(startGame);
   }
 } // end lvl4Obj
 
 function titleScreen() {
-  image(exterior, 0, 0, width, height);
+  image(exterior, 0, 0, width, (height-itemBar));
   textSize(tSize*2.2);
   text("Ghost Treasures", width/2, 50);
   textSize(tSize); // return to normal text size
-  //text("Choose Your Ghost", width/8, height/6);
-  text("Choose Your Ghost", width-width/6, height/6);
+  //text("Choose Your Ghost", width/8, (height-itemBar)/6);
+  text("Choose Your Ghost", width-width/6, (height-itemBar)/6);
   
   //x = width/6;
   x = width-width/8;
-  y = height/3-10;
+  y = (height-itemBar)/3-10;
   
   if (!selChar) {
     selChar = createSelect();
-    //selChar.position(30, height/5);
-    selChar.position(width-width/4, height/5);
+    //selChar.position(30, (height-itemBar)/5);
+    selChar.position(width-width/4, (height-itemBar)/5);
     selChar.option('Ghost 1');
     selChar.option('Ghost 2');
     selChar.option('Ghost 3');
@@ -365,10 +478,9 @@ function titleScreen() {
   
   if (!startButton) {
     startButton = createButton('Play');
-    //startButton.position(width-width/4, height/6);
-    startButton.position(60, height/6);
+    //startButton.position(width-width/4, (height-itemBar)/6);
     startButton.style('font-size', '20px');
-    startButton.size(90, 30);
+    startButton.position(60, (height-itemBar)/6);
     startButton.mousePressed(startGame);
   }
 } // end titleScreen
@@ -438,11 +550,12 @@ function restartGame() {
 } // end restartGame
 
 function livingroom() {
-  image(lvrm, 0, 0, width, height);
-  text("Living Room", width/2, height-20);
+  image(lvrm, 0, 0, width, (height-itemBar));
+  //text("Living Room", width/2, (height-itemBar)-20);
+  text("Living Room", width/2, 40);
   
   var lanternX = width-width/3;
-  var lanternY = height-height/3-10;
+  var lanternY = (height-itemBar)-(height-itemBar)/3-10;
   if (lanT) {
     image(lantern, lanternX, lanternY, 30, 50);
   }
@@ -452,7 +565,7 @@ function livingroom() {
   }
   
   var coinsX = width-width/5;
-  var coinsY = height-height/4.5;
+  var coinsY = (height-itemBar)-(height-itemBar)/4.5;
   if (cT) {
     image(coins, coinsX, coinsY, 50, 30);
   }
@@ -462,7 +575,7 @@ function livingroom() {
   }
   
   var bnaX = width/4+10;
-  var bnaY = height-height/2.8;
+  var bnaY = (height-itemBar)-(height-itemBar)/2.8;
   if (bnaT) {
     image(bna, bnaX, bnaY, 80, 80);
   }
@@ -474,24 +587,24 @@ function livingroom() {
   fill(152, 214, 179); // square color
   
   var greenX = width/11;
-  var greenY = height/2 + 15;
+  var greenY = (height-itemBar)/2 + 15;
   square(greenX, greenY, 10);
   
   var distToG = dist(greenX, greenY, x, y);
   if (distToG < wSize/2) {
     x = width/4;
-    y = height/2;
+    y = (height-itemBar)/2;
     gameState = "green"; // greenhouse
   }
   
   var bkrmX = width/2 - 55;
-  var bkrmY = height/2 + 80;
+  var bkrmY = (height-itemBar)/2 + 80;
   square(bkrmX, bkrmY, 10);
   
   var distToBookrm = dist(bkrmX, bkrmY, x, y);
   if (distToBookrm < hSize/2) {
     x = wSize + 20;
-    y = height/2 + 20;
+    y = (height-itemBar)/2 + 20;
     gameState = "bkrm"; // book room
   }
   
@@ -502,17 +615,18 @@ function livingroom() {
   var distToBedrm = dist(bedrmX, bedrmY, x, y);
   if (distToBedrm < hSize/2) {
     x = width-width/4;
-    y = height - 90;
+    y = (height-itemBar) - 90;
     gameState = "bedrm"; // upstairs
   }
 } // end livingroom
 
 function bookroom() {
-  image(bkrm, 0, 0, width, height);
-  text("Book Room", width/2, height-20);
+  image(bkrm, 0, 0, width, (height-itemBar));
+  //text("Book Room", width/2, (height-itemBar)-20);
+  text("Book Room", width/2, 40);
   
   var mapX = width/3;
-  var mapY = height/4 + 10;
+  var mapY = (height-itemBar)/4 + 10;
   if (mapT) {
     image(map, mapX, mapY, 50, 50);
   }
@@ -522,7 +636,7 @@ function bookroom() {
   }
   
   var gemX = width/4.4;
-  var gemY = height-height/3.5;
+  var gemY = (height-itemBar)-(height-itemBar)/3.5;
   if (gemT) {
     image(gem, gemX, gemY, 25, 25);
   }
@@ -532,7 +646,7 @@ function bookroom() {
   }
   
   var journalX = width-width/2.3;
-  var journalY = height-height/3.7;
+  var journalY = (height-itemBar)-(height-itemBar)/3.7;
   if (jT) {
     image(journal, journalX, journalY, 50, 50);
   }
@@ -544,23 +658,24 @@ function bookroom() {
   fill(152, 214, 179); // square color
   
   var lvrmX = 10;
-  var lvrmY = height/2;
+  var lvrmY = (height-itemBar)/2;
   square(lvrmX, lvrmY, 10);
   
   var distToLvrm = dist(lvrmX, lvrmY, x, y);
   if (distToLvrm < wSize/2) {
     x = width/2 - 55;
-    y = height/2 - 40;
+    y = (height-itemBar)/2 - 40;
     gameState = "lvrm";
   }
 } // end level 2
 
 function greenhouse() {
-  image(green, 0, 0, width, height);
-  text("Greenhouse", width/2, height-20);
+  image(green, 0, 0, width, (height-itemBar));
+  //text("Greenhouse", width/2, (height-itemBar)-20);
+  text("Greenhouse", width/2, 40);
   
   var pumpkinX = width-width/6;
-  var pumpkinY = height-height/4;
+  var pumpkinY = (height-itemBar)-(height-itemBar)/4;
   if (pumpT) {
     image(pumpkin, pumpkinX, pumpkinY, 110, 100);
   }
@@ -570,7 +685,7 @@ function greenhouse() {
   }
   
   var potionX = width-width/2.3;
-  var potionY = height-height/2.1-3;
+  var potionY = (height-itemBar)-(height-itemBar)/2.1-3;
   if (poT) {
     image(potion, potionX, potionY, 45, 45);
   }
@@ -580,7 +695,7 @@ function greenhouse() {
   }
   
   var aplX = width/3;
-  var aplY = height-height/7;
+  var aplY = (height-itemBar)-(height-itemBar)/7;
   if (aplT) {
     image(apple, aplX, aplY, 35, 35);
   }
@@ -592,23 +707,24 @@ function greenhouse() {
   fill(152, 214, 179); // square color
   
   var lvrmX = width/6;
-  var lvrmY = height-height/2.3;
+  var lvrmY = (height-itemBar)-(height-itemBar)/2.3;
   square(lvrmX, lvrmY, 10);
   
   var distToLvrm = dist(lvrmX, lvrmY, x, y);
   if (distToLvrm < wSize/2) {
     x = width/3;
-    y = height/2;
+    y = (height-itemBar)/2;
     gameState = "lvrm";
   }
 } // end bookroom
 
 function bedroom() {
-  image(bedrm, 0, 0, width, height);
-  text("Bedroom", width/2, height-20);
+  image(bedrm, 0, 0, width, (height-itemBar));
+  //text("Bedroom", width/2, (height-itemBar)-20);
+  text("Bedroom", width/2, 40);
   
   var blanketX = width/4.5;
-  var blanketY = height-height/2.3;
+  var blanketY = (height-itemBar)-(height-itemBar)/2.3;
   if (blT) {
     image(blanket, blanketX, blanketY, 100, 210);
   }
@@ -618,7 +734,7 @@ function bedroom() {
   }
   
   var kX = width-width/2.7;
-  var kY = height/2+8;
+  var kY = (height-itemBar)/2+8;
   if (kT) {
     image(k, kX, kY, 30, 40);
   }
@@ -630,7 +746,7 @@ function bedroom() {
   fill(152, 214, 179); // square color
   
   var lvrmX = width-width/3;
-  var lvrmY = height - 20;
+  var lvrmY = (height-itemBar) - 20;
   square(lvrmX, lvrmY, 10);
   
   var distToLvrm = dist(lvrmX, lvrmY, x, y);
@@ -641,23 +757,24 @@ function bedroom() {
   }
   
   var atticX = width/7;
-  var atticY = height/8;
+  var atticY = (height-itemBar)/8;
   square(atticX, atticY, 10);
   
   var distToAttic = dist(atticX, atticY, x, y);
   if (distToAttic < hSize/2) {
     x = width/2;
-    y = height-height/4;
+    y = (height-itemBar)-(height-itemBar)/4;
     gameState = "attic";
   }
 } // end bedroom
 
 function attic() {
-  image(at, 0, 0, width, height);
-  text("Attic", width/2, height-10);
+  image(at, 0, 0, width, (height-itemBar));
+  text("Attic", width/2, (height-itemBar)-10);
+  text("Attic", width/2, 40);
   
   var chestX = width/5 + 5;
-  var chestY = height-height/4;
+  var chestY = (height-itemBar)-(height-itemBar)/4;
   if (chT) {
     image(chest, chestX, chestY, 110, 90);
   }
@@ -667,7 +784,7 @@ function attic() {
   }
   
   var shieldX = width-width/5;
-  var shieldY = height-height/3.9;
+  var shieldY = (height-itemBar)-(height-itemBar)/3.9;
   if (sT) {
     image(shield, shieldX, shieldY, 110, 90);
   }
@@ -677,7 +794,7 @@ function attic() {
   }
   
   var compassX = width-width/4;
-  var compassY = height/2+15;
+  var compassY = (height-itemBar)/2+15;
   if (compT) {
     image(compass, compassX, compassY, 30, 30);
   }
@@ -689,13 +806,13 @@ function attic() {
   fill(152, 214, 179); // square color
   
   var bedrmX = width/2;
-  var bedrmY = height - height/10;
+  var bedrmY = (height-itemBar) - (height-itemBar)/10;
   square(bedrmX, bedrmY, 10);
   
   var distToBedrm = dist(bedrmX, bedrmY, x, y);
   if (distToBedrm < hSize/2) {
     x = width/4;
-    y = height/5;
+    y = (height-itemBar)/5;
     gameState = "bedrm";
   }
 } // end attic
@@ -711,7 +828,8 @@ function win() {
   
   if (!restartButton) {
     restartButton = createButton('Replay Game');
-    restartButton.position(width/2-(restartButton.width/2), height/2 + 40);
+    restartButton.style('font-size', '20px');
+    restartButton.position(width/2-(restartButton.width/2+10), (height-itemBar)/2 + 40);
     restartButton.mousePressed(restartGame);
   }
 } // end win
@@ -727,13 +845,15 @@ function lose() {
   
   if (!startButton) {
     startButton = createButton('Retry Level');
-    startButton.position(width/2-(startButton.width/2), height/2);
+    startButton.style('font-size', '20px');
+    startButton.position(width/2-(startButton.width/2+10), (height-itemBar)/2);
     startButton.mousePressed(startGame);
   }
   
   if (!restartButton) {
     restartButton = createButton('Restart Game');
-    restartButton.position(width/2-(restartButton.width/2), height/2 + startButton.height + 30);
+    restartButton.style('font-size', '20px');
+    restartButton.position(width/2-(restartButton.width/2+10), (height-itemBar)/2 + startButton.height + 30);
     restartButton.mousePressed(restartGame);
   }
 } // end lose
