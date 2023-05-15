@@ -478,7 +478,7 @@ function lvl1Obj() {
   fill(240); // text color
   text("Level 1", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 2 items:\n - Coins\n - Gem", width/3+20, (height-itemBar)/4);
+  text("Collect 2 items:\n - Coins\n - Gem", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl1Obj";
   textAlign(CENTER);
   if (!startButton) {
@@ -499,7 +499,7 @@ function lvl2Obj() {
   fill(240); // text color
   text("Level 2", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 3 items:\n - Blanket\n - Pumpkin\n - Shield\n\nAvoid the spider.", width/3+20, (height-itemBar)/4);
+  text("Collect 3 items:\n - Blanket\n - Pumpkin\n - Shield\n\nAvoid the spider.", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl2Obj";
   if (!startButton) {
     startButton = createButton('Begin');
@@ -519,7 +519,7 @@ function lvl3Obj() {
   fill(240); // text color
   text("Level 3", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 4 items:\n - Lantern\n - Compass\n - Map\n - Apple\n\nAvoid the spiders.", width/3+20, (height-itemBar)/4);
+  text("Collect 4 items:\n - Lantern\n - Compass\n - Map\n - Apple\n\nAvoid the spiders.", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl3Obj";
   if (!startButton) {
     startButton = createButton('Begin');
@@ -539,7 +539,7 @@ function lvl4Obj() {
   fill(240); // text color
   text("Level 4", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 5 items:\n - Key\n - Potion\n - Journal\n - Treasure Chest\n - Bow & Arrow\n\nAvoid the spiders.\n  They're faster now.", width/3+20, (height-itemBar)/4);
+  text("Collect 5 items:\n - Key\n - Potion\n - Journal\n - Treasure Chest\n - Bow & Arrow\n\nAvoid the spiders.\n  They're faster now.", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl4Obj";
   if (!startButton) {
     startButton = createButton('Begin');
@@ -559,7 +559,7 @@ function lvl5Obj() {
   fill(240); // text color
   text("Level 5", width/2, (height-itemBar)/6);
   textAlign(LEFT);
-  text("Retrieve 5 items:\n - Goblet\n - Pearls\n - Sword\n - Crown\n - Pocket Watch\n\nAvoid the spiders.\n  There's three.", width/3+20, (height-itemBar)/4);
+  text("Collect 5 items:\n - Goblet\n - Pearls\n - Sword\n - Crown\n - Pocket Watch\n\nAvoid the spiders.\n  There's three.", width/3+20, (height-itemBar)/4);
   prevGameState = "lvl5Obj";
   if (!startButton) {
     startButton = createButton('Begin');
