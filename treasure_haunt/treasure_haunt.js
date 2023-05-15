@@ -728,7 +728,7 @@ function livingroom() {
   var distToG = dist(greenX, greenY, x, y);
   if (distToG < wSize/2) {
     x = width/4;
-    y = (height-itemBar)/2;
+    y = 2*(height-itemBar)/5;
     gameState = "green"; // greenhouse
   }
   
@@ -739,7 +739,7 @@ function livingroom() {
   var distToBookrm = dist(bkrmX, bkrmY, x, y);
   if (distToBookrm < hSize/2) {
     x = wSize + 20;
-    y = (height-itemBar)/2 + 20;
+    y = (height-itemBar)/2 + (2/3)*hSize;
     gameState = "bkrm"; // book room
   }
   
