@@ -112,26 +112,26 @@ function draw() {
   fill(240); // text color
   textAlign(CENTER); // center score and room label
   
-  // Use W, A, S, D or the arrow keys to move
-  if (keyIsDown(87)  || keyIsDown(UP_ARROW)) { // W
+  // Use W, A, S, D
+  if (keyIsDown(87)) { // W
     y -= 5;
     if (y <= 0) {
       y = 0;
     }
   }
-  if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) { // A
+  if (keyIsDown(65)) { // A
     x -= 5;
     if (x <= 0) {
       x = 0;
     }
   }
-  if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) { // S
+  if (keyIsDown(83)) { // S
     y += 5;
     if (y >= (height-itemBar)) {
       y = (height-itemBar);
     }
   }
-  if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) { // D
+  if (keyIsDown(68)) { // D
     x += 5;
     if (x >= width) {
       x = width;
