@@ -75,6 +75,23 @@ function preload() {
 function setup() {
   createCanvas(canvasSize, (3/5)*canvasSize+itemBar);
   textFont('fantasy');
+  
+  // Image credit links
+  e = createA('https://www.freepik.com/free-vector/old-scary-house-with-glow-windows-night-cartoon-landscape-with-spooky-wooden-mansion-broken-fence-dark-silhouettes-trees-moon-sky_11926411.htm#query=abandoned%20house&position=49&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  e.style('color', '#ffffff');
+  a = createA('https://www.freepik.com/free-vector/old-attic-abandoned-house-night-empty-garret-room-interior-with-broken-roof-walls_13524063.htm#query=abandoned%20house&position=36&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  a.style('color', '#ffffff');
+  l = createA('https://www.freepik.com/free-vector/old-abandoned-house-hallway-night_7588760.htm#query=abandoned%20room&position=1&from_view=keyword&track=ais', 'Image by upklyak on Freepik', '_blank');
+  l.style('color', '#ffffff');
+  bk = createA('https://www.freepik.com/free-vector/old-dirty-library-with-bookcases-night_13377771.htm#query=abandoned%20room&position=13&from_view=search&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  bk.style('color', '#ffffff');
+  bd = createA('https://www.freepik.com/free-vector/girl-ghost-old-bedroom-attic-night_13009450.htm#query=abandoned%20bedroom&position=12&from_view=search&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  bd.style('color', '#ffffff');
+  d = createA('https://www.freepik.com/free-vector/old-brick-house-facade-with-broken-door-boarded-up-window-night-cartoon-illustration-abandoned-residential-building-with-cracks-wall-door-glass_15709549.htm#query=spooky%20window%20background&position=6&from_view=search&track=ais', 'Image by upklyak on Freepik', '_blank');
+  d.style('color', '#ffffff');
+  g = createA('https://www.freepik.com/free-vector/abandoned-greenhouse-night-scary-interior_13318798.htm#page=2&query=abandoned%20house&position=49&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  g.style('color', '#ffffff');
+  
   resetAll();
 } // end setup
 
@@ -94,29 +111,13 @@ function resetAll() {
   resetLvL();
   prevGameState = "none";
   gameState = "start";
-  if (e) {
-    e.remove();
-    d.remove();
-    l.remove();
-    bk.remove();
-    bd.remove();
-    g.remove();
-    a.remove();
-  }
-  e = createA('https://www.freepik.com/free-vector/old-scary-house-with-glow-windows-night-cartoon-landscape-with-spooky-wooden-mansion-broken-fence-dark-silhouettes-trees-moon-sky_11926411.htm#query=abandoned%20house&position=49&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
-  e.style('color', '#ffffff');
-  a = createA('https://www.freepik.com/free-vector/old-attic-abandoned-house-night-empty-garret-room-interior-with-broken-roof-walls_13524063.htm#query=abandoned%20house&position=36&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
-  a.style('color', '#ffffff');
-  l = createA('https://www.freepik.com/free-vector/old-abandoned-house-hallway-night_7588760.htm#query=abandoned%20room&position=1&from_view=keyword&track=ais', 'Image by upklyak on Freepik', '_blank');
-  l.style('color', '#ffffff');
-  bk = createA('https://www.freepik.com/free-vector/old-dirty-library-with-bookcases-night_13377771.htm#query=abandoned%20room&position=13&from_view=search&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
-  bk.style('color', '#ffffff');
-  bd = createA('https://www.freepik.com/free-vector/girl-ghost-old-bedroom-attic-night_13009450.htm#query=abandoned%20bedroom&position=12&from_view=search&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
-  bd.style('color', '#ffffff');
-  d = createA('https://www.freepik.com/free-vector/old-brick-house-facade-with-broken-door-boarded-up-window-night-cartoon-illustration-abandoned-residential-building-with-cracks-wall-door-glass_15709549.htm#query=spooky%20window%20background&position=6&from_view=search&track=ais', 'Image by upklyak on Freepik', '_blank');
-  d.style('color', '#ffffff');
-  g = createA('https://www.freepik.com/free-vector/abandoned-greenhouse-night-scary-interior_13318798.htm#page=2&query=abandoned%20house&position=49&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
-  g.style('color', '#ffffff');
+  e.style('display', 'none');
+  a.style('display', 'none');
+  l.style('display', 'none');
+  bk.style('display', 'none');
+  bd.style('display', 'none');
+  d.style('display', 'none');
+  g.style('display', 'none');
 } // end resetAll
 
 // Reset level items, locations, score
@@ -1117,24 +1118,31 @@ function credits() {
   textAlign(CENTER);
   
   image(exterior, 20, 185, 250, 125);
+  e.style('display', 'block');
   e.position(30, 290);
   
   image(lvrm, 20, 330, 250, 125);
+  l.style('display', 'block');
   l.position(30, 435);
   
   image(bkrm, 20, 475, 312, 125);
+  bk.style('display', 'block');
   bk.position(30, 580);
   
   image(green, 400, 40, 375, 125);
+  g.style('display', 'block');
   g.position(410, 145);
   
   image(bedrm, 400, 185, 281, 125);
+  bd.style('display', 'block');
   bd.position(410, 290);
   
   image(at, 400, 330, 278, 125);
+  a.style('display', 'block');
   a.position(410, 435);
   
   image(door, 400, 475, 187, 125);
+  d.style('display', 'block');
   d.position(410, 580);
   
   if (!restartButton) {
