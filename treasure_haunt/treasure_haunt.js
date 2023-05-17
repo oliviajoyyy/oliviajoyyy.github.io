@@ -1,7 +1,8 @@
 /**
  * Treasure Haunt
  *
- * by Olivia Joy Cacdac
+ * Game by Olivia Joy Cacdac
+ * Images by upklyak on Freepik
  */
  
 // global variables
@@ -25,9 +26,10 @@ var potion, pumpkin, apple; // greenhouse items
 var sword, crown, pearls, goblet, watch; // extra items
 var lanT, cT, bnaT, jT, mapT, gemT, blT, kT, sT, compT, chT, poT, pumpT, aplT; // true/false to draw items
 var swT, crnT, pT, gobT, wT; // true/false extra items
-var startButton, restartButton; // buttons
+var startButton, restartButton, creditsButton; // buttons
 var selChar; // character selection menu
 var g1, g2, g3; // true/false for character selection
+let e, a, l, bk, bd, d, g; // link variables
 
 // Load images
 function preload() { 
@@ -92,6 +94,29 @@ function resetAll() {
   resetLvL();
   prevGameState = "none";
   gameState = "start";
+  if (e) {
+    e.remove();
+    d.remove();
+    l.remove();
+    bk.remove();
+    bd.remove();
+    g.remove();
+    a.remove();
+  }
+  e = createA('https://www.freepik.com/free-vector/old-scary-house-with-glow-windows-night-cartoon-landscape-with-spooky-wooden-mansion-broken-fence-dark-silhouettes-trees-moon-sky_11926411.htm#query=abandoned%20house&position=49&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  e.style('color', '#ffffff');
+  a = createA('https://www.freepik.com/free-vector/old-attic-abandoned-house-night-empty-garret-room-interior-with-broken-roof-walls_13524063.htm#query=abandoned%20house&position=36&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  a.style('color', '#ffffff');
+  l = createA('https://www.freepik.com/free-vector/old-abandoned-house-hallway-night_7588760.htm#query=abandoned%20room&position=1&from_view=keyword&track=ais', 'Image by upklyak on Freepik', '_blank');
+  l.style('color', '#ffffff');
+  bk = createA('https://www.freepik.com/free-vector/old-dirty-library-with-bookcases-night_13377771.htm#query=abandoned%20room&position=13&from_view=search&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  bk.style('color', '#ffffff');
+  bd = createA('https://www.freepik.com/free-vector/girl-ghost-old-bedroom-attic-night_13009450.htm#query=abandoned%20bedroom&position=12&from_view=search&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  bd.style('color', '#ffffff');
+  d = createA('https://www.freepik.com/free-vector/old-brick-house-facade-with-broken-door-boarded-up-window-night-cartoon-illustration-abandoned-residential-building-with-cracks-wall-door-glass_15709549.htm#query=spooky%20window%20background&position=6&from_view=search&track=ais', 'Image by upklyak on Freepik', '_blank');
+  d.style('color', '#ffffff');
+  g = createA('https://www.freepik.com/free-vector/abandoned-greenhouse-night-scary-interior_13318798.htm#page=2&query=abandoned%20house&position=49&from_view=keyword&track=robertav1_2_sidr', 'Image by upklyak on Freepik', '_blank');
+  g.style('color', '#ffffff');
 } // end resetAll
 
 // Reset level items, locations, score
@@ -210,8 +235,12 @@ function draw() {
     lose();
   }
   
+  if (gameState == "credits") {
+    credits();
+  }
+  
   // Ghost character everywhere except Objective screens
-  if (lvl != "Obj1" && lvl != "Obj2" && lvl != "Obj3" && lvl != "Obj4" && lvl != "Obj5") {
+  if (lvl != "Obj1" && lvl != "Obj2" && lvl != "Obj3" && lvl != "Obj4" && lvl != "Obj5" && gameState != "credits") {
     if (g2) {
       image(ghost2, x-(wSize/2), y-(hSize/2), wSize, hSize);
     }
@@ -627,6 +656,10 @@ function startGame() {
     restartButton.remove();
     restartButton = undefined;
   }
+  if (creditsButton) {
+    creditsButton.remove();
+    creditsButton = undefined;
+  }
   if (selChar) {
     selChar.remove();
     selChar = undefined;
@@ -671,8 +704,26 @@ function restartGame() {
     startButton.remove();
     startButton = undefined;
   }
+  if (creditsButton) {
+    creditsButton.remove();
+    creditsButton = undefined;
+  }
   resetAll();
 } // end restartGame
+
+function goToCredits() {
+  creditsButton.remove();
+  creditsButton = undefined;
+  if (startButton) {
+    startButton.remove();
+    startButton = undefined;
+  }
+  if (restartButton) {
+    restartButton.remove();
+    restartButton = undefined;
+  }
+  gameState = "credits";
+}
 
 // Living Room
 function livingroom() {
@@ -1010,6 +1061,15 @@ function win() {
     restartButton.position(width/2-(restartButton.width/2+10), (height-itemBar)/2 + 40);
     restartButton.mousePressed(restartGame);
   }
+  
+  if (!creditsButton) {
+    creditsButton = createButton('Credits');
+    creditsButton.style('font-family', 'fantasy');
+    creditsButton.style('font-size', '20px');
+    creditsButton.position(width/2-(creditsButton.width/2+10), (height - 50));
+    creditsButton.mousePressed(goToCredits);
+  }
+  
 } // end win
 
 // Lose game, retry options
@@ -1036,4 +1096,52 @@ function lose() {
     restartButton.position(width/2-(restartButton.width/2+10), (height-itemBar)/2 + startButton.height + 30);
     restartButton.mousePressed(restartGame);
   }
+  
+  if (!creditsButton) {
+    creditsButton = createButton('Credits');
+    creditsButton.style('font-family', 'fantasy');
+    creditsButton.style('font-size', '20px');
+    creditsButton.position(width/2-(creditsButton.width/2+10), (height - 50));
+    creditsButton.mousePressed(goToCredits);
+  }
 } // end lose
+
+// Credits screen
+function credits() {
+  fill(240);
+  textAlign(LEFT);
+  textSize(2*tSize);
+  text("Credits", 20, 50);
+  textSize(tSize);
+  text("Game created by Olivia Joy Cacdac", 20, 110);
+  textAlign(CENTER);
+  
+  image(exterior, 20, 185, 250, 125);
+  e.position(30, 290);
+  
+  image(lvrm, 20, 330, 250, 125);
+  l.position(30, 435);
+  
+  image(bkrm, 20, 475, 312, 125);
+  bk.position(30, 580);
+  
+  image(green, 400, 40, 375, 125);
+  g.position(410, 145);
+  
+  image(bedrm, 400, 185, 281, 125);
+  bd.position(410, 290);
+  
+  image(at, 400, 330, 278, 125);
+  a.position(410, 435);
+  
+  image(door, 400, 475, 187, 125);
+  d.position(410, 580);
+  
+  if (!restartButton) {
+    restartButton = createButton('Restart Game');
+    restartButton.style('font-family', 'fantasy');
+    restartButton.style('font-size', '20px');
+    restartButton.position(width-(restartButton.width)-50, (height - 50));
+    restartButton.mousePressed(restartGame);
+  }
+}
